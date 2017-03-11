@@ -1,0 +1,7 @@
+[package]
+name = "n-queens"
+version = "0.1.0"
+authors = ["Regan-Koopmans <regankoopmans@protonmail.com>"]
+
+[dependencies]
+rand = "0.3.15"
