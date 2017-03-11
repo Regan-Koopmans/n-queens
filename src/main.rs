@@ -29,7 +29,7 @@ fn count_conflicts(x : u32, y : u32, board: &mut Vec<u32>) -> u32 {
             // Queens in the same row
 
             if board[pos as usize] == y as u32 && count_row == false {
-                num_conflict += 22;
+                num_conflict += 1;
                 count_row = true;
             }
 
@@ -67,9 +67,7 @@ fn init_board(board : &mut Vec<u32>, num_queens : u32) {
 // Main function to perform the heuristic repair
 
 fn repair(board : &mut Vec<u32>) {
-
     let mut rng = rand::thread_rng();
-
     let mut num_conflicts;
     let mut has_moved = true;
     let mut passes = 0;
@@ -84,28 +82,28 @@ fn repair(board : &mut Vec<u32>) {
         for x in 0..board.len() {
             smallest_pos = board[x];
             num_conflicts = count_conflicts(x as u32, board[x], board);
-            // println!("{} has {} conflicts", x, num_conflicts);
             smallest_conf = num_conflicts;
             if num_conflicts > 0 {
                 has_moved = true;
                 for y in 0..len {
                     if y != board[x] as usize {
-                        contestant_conf = count_conflicts(x as u32,y as u32,board);
-                        if contestant_conf <= smallest_conf {
-                            smallest_conf = contestant_conf;
-                            smallest_pos = y as u32;
-                            // println!("{} can smaller or equal conflicts at {}, for {}", x,y, smallest_conf);
-                        }
+                    contestant_conf = count_conflicts(x as u32,y as u32,board);
+                    if contestant_conf <= smallest_conf {
+                        smallest_conf = contestant_conf;
+                        smallest_pos = y as u32;
+                    }
                     }
                 }
                 if smallest_pos != board[x] {
                     board[x] = smallest_pos;
-                } else {
-                    board[x] = rng.gen::<u32>() % (len as u32);
                 }
+                //else {
+                //     board[x] = rng.gen::<u32>() % (len as u32);
+                // }
             }
         }
     }
+    print!("Passes : {}", passes);
 }
 
 // Helper function to print the board to stdout.
