@@ -29,7 +29,7 @@ fn count_conflicts(x : u32, y : u32, board: &mut Vec<u32>) -> u32 {
             // Queens in the same row
 
             if board[pos as usize] == y as u32 && count_row == false {
-                num_conflict += 1;
+                num_conflict += 22;
                 count_row = true;
             }
 
@@ -87,13 +87,9 @@ fn repair(board : &mut Vec<u32>) {
             // println!("{} has {} conflicts", x, num_conflicts);
             smallest_conf = num_conflicts;
             if num_conflicts > 0 {
-
                 has_moved = true;
-
                 for y in 0..len {
-
                     if y != board[x] as usize {
-
                         contestant_conf = count_conflicts(x as u32,y as u32,board);
                         if contestant_conf <= smallest_conf {
                             smallest_conf = contestant_conf;
@@ -109,10 +105,6 @@ fn repair(board : &mut Vec<u32>) {
                 }
             }
         }
-        // if passes >= 1000 {
-        //     init_board(board, len as u32);
-        //     has_moved = true;
-        // }
     }
 }
 
