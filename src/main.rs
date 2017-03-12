@@ -2,6 +2,7 @@ extern crate rand;
 
 use std::env;
 use rand::Rng;
+use std::process;
 
 fn main() {
     let num_queens = env::args().nth(1).unwrap();
@@ -67,7 +68,6 @@ fn init_board(board : &mut Vec<u32>, num_queens : u32) {
 // Main function to perform the heuristic repair
 
 fn repair(board : &mut Vec<u32>) {
-    let mut rng = rand::thread_rng();
     let mut num_conflicts;
     let mut has_moved = true;
     let mut passes = 0;
@@ -78,7 +78,7 @@ fn repair(board : &mut Vec<u32>) {
     while has_moved {
         passes += 1;
         has_moved = false;
-        print_board(board);
+        // print_board(board);
         for x in 0..board.len() {
             smallest_pos = board[x];
             num_conflicts = count_conflicts(x as u32, board[x], board);
@@ -97,10 +97,11 @@ fn repair(board : &mut Vec<u32>) {
                 if smallest_pos != board[x] {
                     board[x] = smallest_pos;
                 }
-                //else {
-                //     board[x] = rng.gen::<u32>() % (len as u32);
-                // }
             }
+        }
+        if passes > len as i32 {
+            println!("Could not solve from that starting position. Please try again.");
+            std::process::exit(0);
         }
     }
     print!("Passes : {}", passes);
@@ -109,12 +110,16 @@ fn repair(board : &mut Vec<u32>) {
 // Helper function to print the board to stdout.
 
 fn print_board(board : &mut Vec<u32>) {
-    print!("[");
-    for x in 0..board.len() {
-        print!("{}", board[x]);
-        if x != board.len() -1 {
-            print!(", ");
+    let len : usize = board.len();
+    for x in 0..len {
+        for y in 0..len {
+            if board[x] == y as u32 {
+                print!("[Q]");
+            }
+            else {
+                print!("[ ]");
+            }
         }
+        println!("");
     }
-    println!("]");
 }
