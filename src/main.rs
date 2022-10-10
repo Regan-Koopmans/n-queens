@@ -2,7 +2,6 @@ extern crate rand;
 
 use std::env;
 use rand::Rng;
-use std::process;
 
 fn main() {
     let num_queens = env::args().nth(1).unwrap();
